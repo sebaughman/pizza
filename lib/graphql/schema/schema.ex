@@ -14,6 +14,10 @@ defmodule Graphql.Schema do
       resolve(&Pizza.Controllers.Toppings.index/2)
     end
 
+    field :pizza_toppings, list_of(:topping) do
+      arg(:pizza_id, :id)
+      resolve(&Pizza.Controllers.PizzaToppings.index/2)
+    end
   end
 
   mutation do
@@ -54,6 +58,20 @@ defmodule Graphql.Schema do
       arg(:id, non_null(:id))
 
       resolve(&Pizza.Controllers.Toppings.delete/2)
+    end
+
+    field :add_topping, :topping do
+      arg(:pizza_id, non_null(:id))
+      arg(:topping_id, non_null(:id))
+
+      resolve(&Pizza.Controllers.PizzaToppings.create/2)
+    end
+
+    field :remove_topping, :topping do
+      arg(:pizza_id, non_null(:id))
+      arg(:topping_id, non_null(:id))
+
+      resolve(&Pizza.Controllers.PizzaToppings.delete/2)
     end
   end
 end
