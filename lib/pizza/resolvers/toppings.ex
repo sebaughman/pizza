@@ -23,6 +23,21 @@ defmodule Pizza.Resolvers.Toppings do
     end
   end
 
+  def update_topping(nil, _name), do: {:error, "Must pass id to update"}
+  def update_topping(_id, nil), do: {:error, "Name can not be nil"}
+
+  def update_topping(id, name) do
+    with {:ok, topping} <- get_toppings(id) do
+      changeset = Toppings.changeset(topping, %{id: id, name: name})
+      case Repo.update(changeset) do
+        {:ok, cs} ->
+          {:ok, cs}
+        {:error, _cs} -> 
+          {:error, "Topping name already taken"}
+      end
+    end
+  end
+
   def create_topping(nil), do: {:error, "Must pass a name for the topping"}
 
   def create_topping(name) do
