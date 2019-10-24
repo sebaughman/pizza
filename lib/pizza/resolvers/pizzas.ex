@@ -11,8 +11,13 @@ defmodule Pizza.Resolvers.Pizzas do
     Repo.all(Pizzas)
   end
 
-  def get_pizzas(%{id: id}) do
-    Repo.get(Pizzas, id)
+  def get_pizzas(id) do
+    case Repo.get(Pizzas, id) do
+      nil -> 
+        {:error, "no pizza with that id"}
+      pizza ->
+        {:ok, pizza}
+    end
   end
 
   def create_pizza(name, topping_ids) when is_list(topping_ids) do
@@ -24,8 +29,17 @@ defmodule Pizza.Resolvers.Pizzas do
         |> Repo.preload(:toppings)
         |> Pizzas.changeset(%{name: name})
         |> put_assoc(:toppings, toppings)
-        |> Repo.insert()
+        |> insert_pizza()
     end   
+  end
+
+  def insert_pizza(changeset) do
+    case Repo.insert(changeset) do
+      {:ok, cs} ->
+        {:ok, cs}
+      {:error, _cs} -> 
+        {:error, "Pizza already created with that name"}
+    end
   end
 
   def create_pizza(nil, _product_ids), do: {:error, "must supply a pizza name"}
@@ -33,11 +47,8 @@ defmodule Pizza.Resolvers.Pizzas do
   def create_pizza(name, topping_id), do: create_pizza(name, [topping_id])
 
   def delete_pizza(id) do
-    case Repo.get(Pizzas, id) do
-      nil -> 
-        {:error, "no pizza with that id"}
-      pizza ->
-        Repo.delete(pizza)
+    with {:ok, pizza} <- get_pizzas(id) do
+      Repo.delete(pizza)
     end
   end
   

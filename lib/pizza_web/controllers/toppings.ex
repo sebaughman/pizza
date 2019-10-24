@@ -3,11 +3,11 @@ defmodule Pizza.Controllers.Toppings do
 
 
   def index(_args, _info) do
-    {:ok, Toppings.get_toppings()}
+    Toppings.get_toppings()
   end
 
-  def create(args, _info) do
-    Toppings.create_topping(args)
+  def create(%{name: name}, _info) do
+    Toppings.create_topping(name)
   end
 
   def delete(%{id: id}, _info) do

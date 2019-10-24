@@ -14,21 +14,30 @@ defmodule Pizza.Resolvers.Toppings do
     Repo.all(query)
   end
 
-  def get_toppings(%{id: id}) do
-    Repo.get(Toppings, id)
-  end
-
-  def create_topping(params) do
-    Toppings.changeset(%Toppings{}, params)
-    |> Repo.insert()
-  end
-
-  def delete_topping(id) do
+  def get_toppings(id) do
     case Repo.get(Toppings, id) do
       nil -> 
         {:error, "no topping with that id"}
       topping ->
-        Repo.delete(topping)
+        {:ok, topping}
+    end
+  end
+
+  def create_topping(nil), do: {:error, "Must pass a name for the topping"}
+
+  def create_topping(name) do
+    changeset = Toppings.changeset(%Toppings{}, %{name: name})
+    case Repo.insert(changeset) do
+      {:ok, cs} ->
+        {:ok, cs}
+      {:error, _cs} -> 
+        {:error, "Topping already created"}
+    end
+  end
+
+  def delete_topping(id) do
+    with {:ok, topping} <- get_toppings(id) do
+      Repo.delete(topping)
     end
   end
 end
