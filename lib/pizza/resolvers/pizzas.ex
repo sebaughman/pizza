@@ -8,7 +8,7 @@ defmodule Pizza.Resolvers.Pizzas do
 
 
   def get_pizzas() do
-    Repo.all(Pizzas)
+   {:ok, Repo.all(Pizzas)}
   end
 
   def get_pizzas(id) do
@@ -22,9 +22,9 @@ defmodule Pizza.Resolvers.Pizzas do
 
   def create_pizza(name, topping_ids) when is_list(topping_ids) do
     case Toppings.get_toppings(topping_ids) do
-      [] -> 
+      {:ok, []} -> 
         {:error, "No toppings with that id"}
-      toppings -> 
+      {:ok, toppings} -> 
         %Pizzas{}
         |> Repo.preload(:toppings)
         |> Pizzas.changeset(%{name: name})

@@ -5,13 +5,13 @@ defmodule Pizza.Resolvers.Toppings do
   alias Pizza.Models.Toppings
 
   def get_toppings() do
-    Repo.all(Toppings)
+    {:ok, Repo.all(Toppings)}
   end
 
   def get_toppings(ids) when is_list(ids) do
     query = from(p in Toppings, where: p.id in ^ids)
 
-    Repo.all(query)
+    {:ok, Repo.all(query)}
   end
 
   def get_toppings(id) do
