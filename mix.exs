@@ -44,7 +44,8 @@ defmodule Pizza.Mixfile do
       {:absinthe_ecto, "~> 0.1.3"},
       {:dataloader, "~> 1.0.0"},
       {:plug_cowboy, "~> 1.0"},
-      {:jason, "~> 1.0"}
+      {:jason, "~> 1.0"},
+      {:cors_plug, "~> 1.5"}
     ]
   end
 

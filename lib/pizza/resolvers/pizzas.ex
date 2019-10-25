@@ -35,8 +35,9 @@ defmodule Pizza.Resolvers.Pizzas do
     end
   end
 
-  def create_pizza(nil, _product_ids), do: {:error, "must supply a pizza name"}
-  def create_pizza(_name, nil), do: {:error, "must supply at least one topping"}
+  def create_pizza("", _topping_ids), do: {:error, "must supply a pizza name"}
+  def create_pizza(nil, _topping_ids), do: {:error, "must supply a pizza name"}
+  def create_pizza(_name, []), do: {:error, "must supply at least one topping"}
 
   def create_pizza(name, topping_ids) when is_list(topping_ids) do
     case Toppings.get_toppings(topping_ids) do
