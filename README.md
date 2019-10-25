@@ -6,6 +6,7 @@ To start your Phoenix server:
 
   * Install dependencies with `mix deps.get`
   * Create and migrate your database with `mix ecto.create && mix ecto.migrate`
+  * If you want some premade toppings run `mix run priv/repo/seeds.exs`
   * Start Phoenix endpoint with `mix phx.server`
   * Accessible through URI: http://localhost:4000/api/graphql
   * Accessible through graphiql: http://localhost:4000/api/graphiql
