@@ -1,20 +1,28 @@
 # Pizza
 
+Graphql API for making topping and pizzas
+
 To start your Phoenix server:
 
   * Install dependencies with `mix deps.get`
   * Create and migrate your database with `mix ecto.create && mix ecto.migrate`
-  * Install Node.js dependencies with `cd assets && npm install`
   * Start Phoenix endpoint with `mix phx.server`
+  * Accessible through URI: http://localhost:4000/api/graphql
+  * Accessible through graphiql: http://localhost:4000/api/graphiql
 
-Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
+## API
 
-Ready to run in production? Please [check our deployment guides](http://www.phoenixframework.org/docs/deployment).
+### Pizzas
+  * create pizzas with a name and topping ids (can't create pizzas with the same name)
+  * update pizza name
+  * delete pizza
 
-## Learn more
+### Toppings
+  * create topping with name (can't create toppings with the same name)
+  * update topping name
+  * delete topping (will remove from all pizzas)
 
-  * Official website: http://www.phoenixframework.org/
-  * Guides: http://phoenixframework.org/docs/overview
-  * Docs: https://hexdocs.pm/phoenix
-  * Mailing list: http://groups.google.com/group/phoenix-talk
-  * Source: https://github.com/phoenixframework/phoenix
+### PizzaToppings
+  * get all toppings on a pizza with id
+  * add topping to pizza (can not add same topping twice)
+  * remove topping from pizza
